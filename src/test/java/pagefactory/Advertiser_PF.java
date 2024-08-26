@@ -74,6 +74,13 @@ public class Advertiser_PF {
 	@FindBy(id=":rh:")
 	WebElement dropdownAdList;
 	
+	@FindBy(xpath="//span[contains(.,'Select Advertiser')]")
+	WebElement dropdownAdList1;
+
+	@FindBy(xpath="(//label[@id='demo-simple-select-label font-Gilroy-Medium text-base'])[1]")
+	WebElement dropdownTrackers1;
+
+	
 	@FindBy(id=":rk:")
 	WebElement dropdownTrackers;
 		
@@ -195,13 +202,13 @@ public class Advertiser_PF {
 	WebElement buttonInActive;
 	
 	
-	@FindBy(xpath="(//span[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[1]")
+	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[1]")
 	WebElement txtName;
 	
-	@FindBy(xpath="(//span[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[2]")
+	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[2]")
 	WebElement txtDate;
 	
-	@FindBy(xpath="(//span[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[3]")
+	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[3]")
 	WebElement txtStatus;
 	
 	
@@ -759,11 +766,14 @@ public class Advertiser_PF {
 	public void AllButtonValidation() throws Exception 
 	{
 		try 
+		
 		{
+			Thread.sleep(2000);
+
 			buttonAll.click();
 			
 			
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			
 			AdvertiserValidation.scenario.log("Verify Name, Date Added and Status table is listed for all");
 			 mySoftAssert.assertEquals("Ad Creative",txtName.getText());
@@ -849,6 +859,7 @@ public class Advertiser_PF {
 		   btnNewAdCreative.click();
 		   */txtAdCreativeName.sendKeys("Automation Ad Creative "+dtf.format(now));
 		   txtDescAdCreative.sendKeys("Ad Creative");
+		   dropdownAdList.click();
 		   dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
 		   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
 		   dropdownAdList.sendKeys(Keys.ENTER);

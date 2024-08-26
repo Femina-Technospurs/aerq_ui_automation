@@ -127,7 +127,7 @@ public class AdvertiserValidation extends WebDriverManager{
 	@And ("Validate All Ad Creative Listing")
  	public void validate_all_ad_creative_list() throws Exception
  	{
- 		Thread.sleep(100);
+ 		Thread.sleep(3000);
  		advertiser = new Advertiser_PF(driver);
  		advertiser.AllButtonValidation();
  	}

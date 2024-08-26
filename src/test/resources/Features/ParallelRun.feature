@@ -32,7 +32,6 @@ Scenario Outline: Add date to ground permit and create new match
 	And Click on Logout
 		Examples:
       | Testcase_NO | Scenario | Match_Date | Match_Time | PermitTime | Ground | Home_Team | Away_Team | Umpire1_Team | Umpire2_Team | Stage | Live_Score | Validation_Message | Match_ID | 
-	##@externaldata@./src/test/resources/data/TestData_LiveScore_Parallel.xlsx@Admin
 |Testcase_001|Add a New Match for Success creation|02/04/2023|08:30AM|8:30-12:00|Alviso Park|Absolute|Alpha Lions|Warriors|007|Round-Robin|Yes|Match Scheduled Successfully|26673|
 									  
 @home
@@ -98,7 +97,6 @@ And Click on Logout
 
 Examples:
       | Testcase_NO | Scenario | Match_ID |Skriker |	NonStriker	| Bowler	| Player	| Fielder	| Dismissal | WicketKeeper |
-	##@externaldata@./src/test/resources/data/TestData_LiveScore_Parallel.xlsx@Home
 |Testcase_005|Ack|26673|Abhishek Dhanuka|Jainish Mistry|Rajesh Borkar|Anil Kaneriya|Akash Devgun|Bowled|Akash Devgun|
 
 @away
@@ -164,7 +162,6 @@ And Click on Logout
 
 Examples:
       | Testcase_NO | Scenario | Match_ID | Skriker |	NonStriker | Bowler | Player	| Fielder	 | Dismissal | WicketKeeper |
-	##@externaldata@./src/test/resources/data/TestData_LiveScore_Parallel.xlsx@Away
 |Testcase_005|Ack|26673|Abhishek Misra|Nikhil Jain|Jainish Mistry|Akash Devgun|Akshya QA |Retired Out|Akash Devgun|
 
 
@@ -195,7 +192,6 @@ And Click on Logout
 
 Examples:
       | Testcase_NO | Scenario | Match_ID |
-	##@externaldata@./src/test/resources/data/TestData_LiveScore_Parallel.xlsx@HomeUmpire
 |Testcase_008|Update Umpire|26673|
 
 @umpireaway
@@ -220,5 +216,4 @@ And Click on Logout
 
 Examples:
       | Testcase_NO | Scenario | Match_ID | Win	| POM | 
-	##@externaldata@./src/test/resources/data/TestData_LiveScore_Parallel.xlsx@AwayUmpire
 |Testcase_007|Umpire Ack,Assign,Close Match|26673|Alp Won|Abhishek Dhanuka (Absol)|

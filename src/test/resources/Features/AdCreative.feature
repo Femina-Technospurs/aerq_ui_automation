@@ -3,7 +3,7 @@ Background:
     Given scenario data
 
 
-@smoke1
+@smoke
 Scenario Outline: Ad Creative Validation - "<Scenario>"
 
 Given Open the chrome
@@ -34,6 +34,7 @@ Scenario Outline: Error Validation On Add Creative
 Given Open the chrome
 And Navigate to the AERQ homepage
 Then Validate AERQ home page for "<Scenario>" with "<message>"
+And Click on Ad Creative page and Navigate
 And Validate All Ad Creative Listing
 And Validate Active Ad Creative Listing
 And Validate InActive Advertiser Listing
