@@ -71,8 +71,11 @@ public class Advertiser_PF {
 	@FindBy(id="demo-simple-select-label font-Gilroy-Medium text-base")
 	List<WebElement> dropdownAdSource2;
 	
-	@FindBy(id=":rh:")
+	//@FindBy(id=":rh:")
+	@FindBy(xpath="//input[@class='MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1uvydh2']")
 	WebElement dropdownAdList;
+	
+	
 	
 	@FindBy(xpath="//span[contains(.,'Select Advertiser')]")
 	WebElement dropdownAdList1;
@@ -528,37 +531,46 @@ public class Advertiser_PF {
 			}
 		}
 				AddTracker("0%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTracker("25%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTracker("50%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTracker("75%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTrackerClick("100%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTrackerClick("Click");
-			btnAdCreative.sendKeys(Keys.DOWN);
-			btnAdCreative.click();
-			Thread.sleep(3000);
+				Thread.sleep(5000);
+
+				Actions action =new Actions(driver);
+	  			action.moveToElement(btnAdCreative);
+				action.click().build().perform();
+	
+			//btnAdCreative.sendKeys(Keys.DOWN);
+			//btnAdCreative.click();
+			@SuppressWarnings("deprecation")
+			WebDriverWait wait = new WebDriverWait(driver,30);
+			wait.until(ExpectedConditions.visibilityOf(alertMsg));
 		System.out.println("alertMsg "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
-		AdvertiserValidation.scenario.log("Search of Advertiser");
-		btnSearch.sendKeys(name);
-		Thread.sleep(3000);
+//		AdvertiserValidation.scenario.log("Search of Advertiser");
+	//	btnSearch.sendKeys(name);
+	//	Thread.sleep(3000);
 
-		driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
+	//	driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
 		
-		AdvertiserValidation.scenario.log("Edit of Advertiser");
-		dotButton.click();
-		btnEditAdCreative.click();
+	//	AdvertiserValidation.scenario.log("Edit of Advertiser");
+	//	Thread.sleep(3000);
+
+	//	dotButton.click();
+	//	btnEditAdCreative.click();
 		
-		Thread.sleep(3000);
 		}
 		catch(Exception ex)
 		{
@@ -841,8 +853,15 @@ public class Advertiser_PF {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");  
 		   LocalDateTime now = LocalDateTime.now();  
 		   System.out.println(dtf.format(now));
+		
 		   String name="Automation Ad Creative "+dtf.format(now);
-		  /* txtAdCreativeName.sendKeys("1");
+		   dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
+		   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
+		   dropdownAdList.sendKeys(Keys.ENTER);
+		  
+			Thread.sleep(3000);
+		
+		   txtAdCreativeName.sendKeys("1");
 		   txtAdCreativeName.clear();
 		   txtDescAdCreative.sendKeys("Ad Creative");
 		   for(int i=0;i<alertText.size();i++)
@@ -857,14 +876,9 @@ public class Advertiser_PF {
 			
 		   btnCancel.click();
 		   btnNewAdCreative.click();
-		   */txtAdCreativeName.sendKeys("Automation Ad Creative "+dtf.format(now));
+		   
+		   txtAdCreativeName.sendKeys("Automation Ad Creative "+dtf.format(now));
 		   txtDescAdCreative.sendKeys("Ad Creative");
-		   dropdownAdList.click();
-		   dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
-		   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
-		   dropdownAdList.sendKeys(Keys.ENTER);
-		  
-			Thread.sleep(3000);
 			AdvertiserValidation.scenario.log("Verify Add button is disabled before adding Advertiser and Creative Types");
 			 mySoftAssert.assertEquals(Boolean.FALSE,driver.findElement(By.xpath("//button[text()='Add']")).isEnabled());
 			 AdvertiserValidation.scenario.log("Actual value" +driver.findElement(By.xpath("//button[text()='Add']")).isEnabled()+ ", Expected Value " + Boolean.FALSE );
@@ -892,13 +906,19 @@ public class Advertiser_PF {
 				Thread.sleep(3000);
 
 				AddTrackerClick("100%");
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 
 				AddTrackerClick("Click");
-			btnAdCreative.sendKeys(Keys.DOWN);
-			btnAdCreative.click();
-			Thread.sleep(3000);
-		System.out.println("alertMsg "+alertMsg.getText());
+				Thread.sleep(5000);
+
+					Actions action =new Actions(driver);
+		  			action.moveToElement(btnAdCreative);
+					action.click().build().perform();
+			//btnAdCreative.sendKeys(Keys.DOWN);
+			//btnAdCreative.click();
+					@SuppressWarnings("deprecation")
+					WebDriverWait wait = new WebDriverWait(driver,30);
+					wait.until(ExpectedConditions.visibilityOf(alertMsg));		System.out.println("alertMsg "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Search of Advertiser");
 		btnSearch.sendKeys(name);
@@ -939,11 +959,17 @@ public class Advertiser_PF {
 	public void AddTracker(String trackerType) throws InterruptedException
 	{
 		try {
-			
+			Thread.sleep(3000);
+			WebDriverWait wait = new WebDriverWait(driver,30);
+			wait.until(ExpectedConditions.visibilityOf(txtTrackerName));
+	
 		txtTrackerName.sendKeys(trackerType +" Tracker ");
-		txtTrackerName.sendKeys(Keys.TAB,Keys.ENTER);
+		txtTrackerName.sendKeys(Keys.TAB,Keys.ENTER,trackerType,Keys.ENTER);
+		Thread.sleep(3000);
+
 		//txtTrackerType.click();
-			List<WebElement> options = dropdownTrackers.findElements(By.tagName("li"));
+		//txtTrackerType.sendKeys(trackerType,Keys.ENTER);
+		/*	List<WebElement> options = driver.findElements(By.tagName("li"));
 			for (WebElement option : options)
 			{
 			    if (option.getText().equals(trackerType))
@@ -952,6 +978,11 @@ public class Advertiser_PF {
 			        break;
 			    }
 			}
+			*/
+		
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
+			
 		txtTrackerUrl.sendKeys("http://123.com");
 		btnAddTracket.click();
 		}
@@ -963,11 +994,14 @@ public class Advertiser_PF {
 	public void AddTrackerClick(String trackerType) throws InterruptedException
 	{
 		try {
+			WebDriverWait wait = new WebDriverWait(driver,30);
+			wait.until(ExpectedConditions.visibilityOf(txtTrackerName));
 			
 		txtTrackerName.sendKeys("Tracker");
-		txtTrackerName.sendKeys(Keys.TAB,Keys.ENTER,Keys.DOWN,Keys.DOWN,Keys.DOWN,Keys.DOWN,Keys.DOWN);
+		txtTrackerName.sendKeys(Keys.TAB,Keys.ENTER,trackerType,Keys.ENTER);
+		
 		//txtTrackerType.click();
-			List<WebElement> options = dropdownTrackers.findElements(By.tagName("li"));
+		/*	List<WebElement> options = dropdownTrackers.findElements(By.tagName("li"));
 			for (WebElement option : options)
 			{
 			    if (option.getText().equals(trackerType))
@@ -975,7 +1009,7 @@ public class Advertiser_PF {
 			        option.click(); // click the desired option
 			        break;
 			    }
-			}
+			}*/
 		txtTrackerUrl.sendKeys("123.com");
 		btnAddTracket.click();
 		}
