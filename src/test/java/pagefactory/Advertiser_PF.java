@@ -109,7 +109,19 @@ public class Advertiser_PF {
 	WebElement txtTrackerType;
 
 	@FindBy(xpath="(//div[@class='MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-qiwgdb'])[1]")
-	WebElement txtAdSourceType;
+	WebElement txtAdSourceType1;
+	
+	@FindBy(xpath="//input[@name='adSourceId']")
+	WebElement radioAdSourceType;
+	
+	@FindBy(xpath="//input[@name='adType']")
+	WebElement radioUpload;
+	
+	@FindBy(xpath="//input[@name='adType']")
+	WebElement radioCreativeURL;
+//	
+//	
+	
 	
 	@FindBy(xpath="//button[contains(.,'Add')]")
 	WebElement btnAdd;
@@ -478,7 +490,7 @@ public class Advertiser_PF {
 		{
 			btnAdSource.click();
 			txtTrackerName.sendKeys(Keys.DOWN);
-			txtAdSourceType.click();
+			txtAdSourceType1.click();
 			listAdSource.click();
 			driver.findElement(By.xpath("//span[contains(.,'"+ creativeType +"')]")).click();
 			Thread.sleep(3000);
@@ -487,7 +499,7 @@ public class Advertiser_PF {
 		{
 			btnUploadRadio.click();
 			txtTrackerName.sendKeys(Keys.DOWN);
-			txtAdSourceType.click();
+			txtAdSourceType1.click();
 			switch(creativeType.toString().toLowerCase())
 			{
 			case "image" :
@@ -511,7 +523,7 @@ public class Advertiser_PF {
 		{
 			btnCreativeURLRadio.click();
 			txtTrackerName.sendKeys(Keys.DOWN);
-			txtAdSourceType.click();
+			txtAdSourceType1.click();
 			switch(creativeType.toString().toLowerCase())
 			{
 			case "image" :
@@ -805,9 +817,9 @@ public class Advertiser_PF {
 	{
 		try {
 
+			Thread.sleep(2000);
 	buttonActive.click();
 	Thread.sleep(5000);
-	
 	AdvertiserValidation.scenario.log("Verify Name, Date Added and Status table is listed for Active");
 	 mySoftAssert.assertEquals("Ad Creative",txtName.getText());
 	 AdvertiserValidation.scenario.log("Actual value : " +txtName.getText()+ ", Expected Value : " + "Ad Creative");
@@ -847,7 +859,6 @@ public class Advertiser_PF {
 	{
 		try {
 			Thread.sleep(5000);
-			
 
 			btnNewAdCreative.click();
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");  
@@ -884,11 +895,22 @@ public class Advertiser_PF {
 			 AdvertiserValidation.scenario.log("Actual value" +driver.findElement(By.xpath("//button[text()='Add']")).isEnabled()+ ", Expected Value " + Boolean.FALSE );
 			  
 			btnAdSource.click();
-			txtTrackerName.sendKeys(Keys.DOWN);
-			txtAdSourceType.click();
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
+			
+		//	radioAdSourceType.click();
+			Actions action1 =new Actions(driver);
+  			action1.moveToElement(radioAdSourceType);
+			action1.click().build().perform();
+	
 			listAdSource.click();
 			Thread.sleep(3000);
-	
+			  dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
+			   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
+			   dropdownAdList.sendKeys(Keys.ENTER);
+			 
+			
 			AdvertiserValidation.scenario.log("Verify Add button is Enabled After adding Advertiser and Creative Types");
 			mySoftAssert.assertEquals(Boolean.TRUE,driver.findElement(By.xpath("//button[text()='Add']")).isEnabled());
 			AdvertiserValidation.scenario.log("Actual value" +driver.findElement(By.xpath("//button[text()='Add']")).isEnabled()+ ", Expected Value " + Boolean.TRUE );
@@ -918,7 +940,8 @@ public class Advertiser_PF {
 			//btnAdCreative.click();
 					@SuppressWarnings("deprecation")
 					WebDriverWait wait = new WebDriverWait(driver,30);
-					wait.until(ExpectedConditions.visibilityOf(alertMsg));		System.out.println("alertMsg "+alertMsg.getText());
+					wait.until(ExpectedConditions.visibilityOf(alertMsg));		
+					System.out.println("alertMsg "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Search of Advertiser");
 		btnSearch.sendKeys(name);
