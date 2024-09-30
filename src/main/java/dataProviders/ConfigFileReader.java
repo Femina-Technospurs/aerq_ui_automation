@@ -45,7 +45,13 @@ public class ConfigFileReader {
 		if(driverPath!= null) return driverPath;
 		else throw new RuntimeException("Driver Path not specified in the Configuration.properties file for the Key:driverPath");		
 	}
-
+	public String getFileUploadPath(){
+		String projectPath = System.getProperty("user.dir");
+		
+		String filePath = projectPath + properties.getProperty("file_upload");
+		if(filePath!= null) return filePath;
+		else throw new RuntimeException("File Path not specified in the Configuration.properties file for the Key:file_upload");		
+	}
 	public long getImplicitlyWait() {		
 		String implicitlyWait = properties.getProperty("implicitlyWait");
 		if(implicitlyWait != null) {

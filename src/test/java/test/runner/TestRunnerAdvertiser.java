@@ -12,17 +12,12 @@ import io.cucumber.junit.CucumberOptions;
 import io.cucumber.junit.CucumberOptions.SnippetType;
 
 @CucumberOptions(plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-"timeline:test-output-thread/"},features="src/test/resources/Features/AdCreative.feature",
-		// "Advertiser.feature", 
-
-//LiveScoreWithoutUmp.feature
-//LiveScoreDataDriven.feature
-//SuperOver.feature
+"timeline:test-output-thread/"},features="src/test/resources/Features",
+		//Advertiser.feature, 
+		//AdCreative.feature
 
 glue= {"StepDefinitions"},tags = "@smoke",
 monochrome = true, snippets = SnippetType.CAMELCASE)
-
-
 
 @RunWith(CustomCucumberRunner.class)
 public class TestRunnerAdvertiser extends AbstractTestNGCucumberTests 

@@ -1,4 +1,4 @@
-Navigate to the AERQ homepageFeature: AERQ Advertiser UI Automation
+Feature: Navigate to the AERQ homepageFeature: AERQ Advertiser UI Automation
 Background:
     Given scenario data
 

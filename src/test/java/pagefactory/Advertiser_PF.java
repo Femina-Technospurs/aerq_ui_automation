@@ -28,6 +28,8 @@ import org.testng.asserts.SoftAssert;
 import CommonUtil.ElementUtil;
 import StepDefinitions.AdvertiserValidation;
 import dataProviders.ConfigFileReader;
+import driverManager.FileReaderManager;
+
 import com.google.common.base.Verify;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -217,18 +219,22 @@ public class Advertiser_PF {
 	WebElement buttonInActive;
 	
 	
-	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[1]")
+	@FindBy(xpath="(//button[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[1]")
 	WebElement txtName;
 	
-	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[2]")
+	@FindBy(xpath="(//button[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[2]")
 	WebElement txtDate;
 	
-	@FindBy(xpath="(//p[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[3]")
+	@FindBy(xpath="(//button[@class='font-Gilroy-SemiBold text-base text-sub-text-color flex'])[3]")
 	WebElement txtStatus;
 	
 	
 	@FindBy(xpath="//span[contains(.,'Edge Ad Source')]")
 	WebElement listAdSource;
+	
+
+	@FindBy(name="adType")
+	WebElement dropdownUpload;
 	
 	@FindBy(xpath="//span[contains(.,'IMAGE')]")
 	WebElement listAdTypeImage;
@@ -470,35 +476,34 @@ public class Advertiser_PF {
 	{
 		try {
 			Thread.sleep(5000);
-
-		btnNewAdCreative.click();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");  
-		   LocalDateTime now = LocalDateTime.now();  
-		   System.out.println(dtf.format(now));
-		   String name="Automation Ad Creative "+dtf.format(now);
-		   txtAdCreativeName.sendKeys("Automation Ad Creative "+dtf.format(now));
-		   txtDescAdCreative.sendKeys("Ad Creative");
-		   dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
-		   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
-		   dropdownAdList.sendKeys(Keys.ENTER);
-		  
+			btnNewAdCreative.click();
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");  
+			LocalDateTime now = LocalDateTime.now();  
+			System.out.println(dtf.format(now));
+			String name="Automation Ad Creative "+dtf.format(now);
+			txtAdCreativeName.sendKeys("Automation Ad Creative "+dtf.format(now));
+			txtDescAdCreative.sendKeys("Ad Creative");
+			dropdownAdList.sendKeys("SQ ADV");
+			dropdownAdList.sendKeys(Keys.ARROW_DOWN);
+			dropdownAdList.sendKeys(Keys.ENTER);
 			Thread.sleep(3000);
-		//	Actions action =new Actions(driver);
-  		//	action.moveToElement(selectAdSource);
-			//	action.click().build().perform();
 		if(CreativeMode.toLowerCase().equals("adsource"))
 		{
 			btnAdSource.click();
-			txtTrackerName.sendKeys(Keys.DOWN);
-			txtAdSourceType1.click();
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
+			Thread.sleep(3000);
+			txtAdSourceType1.sendKeys("Edge Ad Source");			
 			listAdSource.click();
-			driver.findElement(By.xpath("//span[contains(.,'"+ creativeType +"')]")).click();
+			//driver.findElement(By.xpath("//span[contains(.,'"+ creativeType +"')]")).click();
 			Thread.sleep(3000);
 		}
 		else if (CreativeMode.toLowerCase().equals("upload"))
 		{
 			btnUploadRadio.click();
-			txtTrackerName.sendKeys(Keys.DOWN);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
+			Thread.sleep(3000);
 			txtAdSourceType1.click();
 			switch(creativeType.toString().toLowerCase())
 			{
@@ -626,6 +631,7 @@ public class Advertiser_PF {
 	public void ImageUpload(String Url) throws InterruptedException, IOException
 	{
 		try {
+
 		listAdTypeImage.click();
 		Thread.sleep(5000);   
 		String beforeWindow=driver.getWindowHandle();
@@ -633,7 +639,7 @@ public class Advertiser_PF {
 		btnChoose.click();
 		JavascriptExecutor executor = (JavascriptExecutor)driver;    
 		Thread.sleep(3000);   
-		Runtime.getRuntime().exec("C:\\Users\\Admin\\Desktop\\1.exe"+" "+ Url);
+		Runtime.getRuntime().exec(FileReaderManager.getInstance().getConfigReader().getFileUploadPath()+" "+ Url);
 		System.out.println("File Uploaded...");
 		Thread.sleep(15000);
 		Set<String> windows = driver.getWindowHandles();
@@ -681,7 +687,7 @@ public class Advertiser_PF {
 		btnAdMedia.click();
 		btnChoose.click();
 		Thread.sleep(3000);   
-		Runtime.getRuntime().exec("C:\\Users\\Admin\\Desktop\\1.exe"+" "+ Url);
+		Runtime.getRuntime().exec(FileReaderManager.getInstance().getConfigReader().getFileUploadPath()+" "+ Url);
 		System.out.println("File Uploaded...");
 		Thread.sleep(30000);
 		Set<String> windows = driver.getWindowHandles();
@@ -753,7 +759,7 @@ public class Advertiser_PF {
 		btnChoose.click();
 		JavascriptExecutor executor = (JavascriptExecutor)driver;    
 		Thread.sleep(3000);   
-		Runtime.getRuntime().exec("C:\\Users\\Admin\\Desktop\\1.exe"+" "+ Url);
+		Runtime.getRuntime().exec(FileReaderManager.getInstance().getConfigReader().getFileUploadPath()+" "+ Url);
 		System.out.println("File Uploaded...");
 		Thread.sleep(15000);
 		Set<String> windows = driver.getWindowHandles();
@@ -848,6 +854,9 @@ public class Advertiser_PF {
 	 AdvertiserValidation.scenario.log("Actual value : " +txtDate.getText()+ ", Expected Value : " + "Date Added");
 	 mySoftAssert.assertEquals("Status",txtStatus.getText());
 	 AdvertiserValidation.scenario.log("Actual value : " +txtStatus.getText()+ ", Expected Value : " + "Status");
+		Thread.sleep(2000);
+
+		buttonAll.click();
 
 		}
 		catch(Exception ex)
@@ -866,14 +875,14 @@ public class Advertiser_PF {
 		   System.out.println(dtf.format(now));
 		
 		   String name="Automation Ad Creative "+dtf.format(now);
-		   dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
+		   dropdownAdList.sendKeys("SQ ADV");
 		   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
 		   dropdownAdList.sendKeys(Keys.ENTER);
 		  
 			Thread.sleep(3000);
 		
-		   txtAdCreativeName.sendKeys("1");
-		   txtAdCreativeName.clear();
+		   txtAdCreativeName.sendKeys("1"+Keys.BACK_SPACE);
+			Thread.sleep(3000);
 		   txtDescAdCreative.sendKeys("Ad Creative");
 		   for(int i=0;i<alertText.size();i++)
 			{
@@ -892,23 +901,23 @@ public class Advertiser_PF {
 		   txtDescAdCreative.sendKeys("Ad Creative");
 			AdvertiserValidation.scenario.log("Verify Add button is disabled before adding Advertiser and Creative Types");
 			 mySoftAssert.assertEquals(Boolean.FALSE,driver.findElement(By.xpath("//button[text()='Add']")).isEnabled());
-			 AdvertiserValidation.scenario.log("Actual value" +driver.findElement(By.xpath("//button[text()='Add']")).isEnabled()+ ", Expected Value " + Boolean.FALSE );
-			  
+			 AdvertiserValidation.scenario.log("Actual value" +driver.findElement(By.xpath("//button[text()='Add']")).isEnabled()+ ", Expected Value " + Boolean.FALSE );		  
 			btnAdSource.click();
-
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
-			
-		//	radioAdSourceType.click();
-			Actions action1 =new Actions(driver);
-  			action1.moveToElement(radioAdSourceType);
-			action1.click().build().perform();
-	
-			listAdSource.click();
 			Thread.sleep(3000);
-			  dropdownAdList.sendKeys("Automation Advertiser20240712152547 Updated");
-			   dropdownAdList.sendKeys(Keys.ARROW_DOWN);
-			   dropdownAdList.sendKeys(Keys.ENTER);
+			txtAdSourceType1.sendKeys("Edge Ad Source");
+			listAdSource.click();
+
+		//	radioAdSourceType.click();
+		//	Actions action1 =new Actions(driver);
+		//	action1.moveToElement(radioAdSourceType);
+		//	action1.click().build().perform();
+	
+			Thread.sleep(3000);
+			dropdownAdList.sendKeys("SQ ADV");
+			dropdownAdList.sendKeys(Keys.ARROW_DOWN);
+			dropdownAdList.sendKeys(Keys.ENTER);
 			 
 			
 			AdvertiserValidation.scenario.log("Verify Add button is Enabled After adding Advertiser and Creative Types");
@@ -942,12 +951,12 @@ public class Advertiser_PF {
 					WebDriverWait wait = new WebDriverWait(driver,30);
 					wait.until(ExpectedConditions.visibilityOf(alertMsg));		
 					System.out.println("alertMsg "+alertMsg.getText());
-		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
-		AdvertiserValidation.scenario.log("Search of Advertiser");
-		btnSearch.sendKeys(name);
-		Thread.sleep(3000);
+					AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
+					AdvertiserValidation.scenario.log("Search of Advertiser");
+					btnSearch.sendKeys(name);
+					Thread.sleep(3000);
 
-		driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
+					driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
 		
 		AdvertiserValidation.scenario.log("Edit of Ad Creatives");
 		dotButton.click();
@@ -961,18 +970,15 @@ public class Advertiser_PF {
 		txtAdCreativeName.sendKeys(" Updated");
 		
 		btnUpdate.click();
+		wait.until(ExpectedConditions.visibilityOf(alertMsg));		
 		AdvertiserValidation.scenario.log("Alert Text Found for Update: "+alertMsg.getText());
-
-		Thread.sleep(10000);
+		Thread.sleep(3000);
 		AdvertiserValidation.scenario.log("Delete of Ad Creatives");
-		
 		dotButton.click();
 		btnDelete.click();
 		btnDeleteConfirm.click();
-		Thread.sleep(3000);
-
+		wait.until(ExpectedConditions.visibilityOf(alertMsg));		
 		AdvertiserValidation.scenario.log("Alert Text Found for Delete: "+alertMsg.getText());
-
 		}
 		catch(Exception ex)
 		{
@@ -1041,6 +1047,7 @@ public class Advertiser_PF {
 			throw ex;
 		}
 	}
+	@SuppressWarnings("deprecation")
 	public void AddAdv() throws InterruptedException 
 	{
 		btnNewAdv.click();
@@ -1055,29 +1062,32 @@ public class Advertiser_PF {
 		Thread.sleep(3000);
 		
 		btnAdd.click();
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		wait.until(ExpectedConditions.visibilityOf(alertMsg));
 		System.out.println("alertMsg "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Search of Advertiser");
-		
 		driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
-		
 		AdvertiserValidation.scenario.log("Edit of Advertiser");
 		dotButton.click();
 		btnEdit.click();
 		Thread.sleep(3000);
-
 		txtAdvName.sendKeys(" Updated");
 		//txtDesc.sendKeys("Updated");
 		btnUpdate.click();
+		wait.until(ExpectedConditions.visibilityOf(alertMsg));
 		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
 		AdvertiserValidation.scenario.log("Delete of Advertiser");
+		System.out.println("alertMsg "+alertMsg.getText());
+		Thread.sleep(3000);
 		
 		dotButton.click();
 		btnDelete.click();
 		btnDeleteConfirm.click();
-		Thread.sleep(3000);
+		wait.until(ExpectedConditions.visibilityOf(alertMsg));
 		AdvertiserValidation.scenario.log("Delete Alert Text Found : "+alertMsg.getText());
-		
+		System.out.println("alertMsg "+alertMsg.getText());
+
 	}
 	
 	public void AddAdvWithInvalidData() throws InterruptedException 
