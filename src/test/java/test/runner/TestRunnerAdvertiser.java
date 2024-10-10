@@ -12,7 +12,7 @@ import io.cucumber.junit.CucumberOptions;
 import io.cucumber.junit.CucumberOptions.SnippetType;
 
 @CucumberOptions(plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-"timeline:test-output-thread/"},features="src/test/resources/Features",
+"timeline:test-output-thread/"},features="src/test/resources/Features/AdCreative.feature",
 		//Advertiser.feature, 
 		//AdCreative.feature
 

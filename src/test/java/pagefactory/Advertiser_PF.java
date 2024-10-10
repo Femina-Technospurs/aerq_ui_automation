@@ -78,7 +78,6 @@ public class Advertiser_PF {
 	WebElement dropdownAdList;
 	
 	
-	
 	@FindBy(xpath="//span[contains(.,'Select Advertiser')]")
 	WebElement dropdownAdList1;
 
@@ -121,10 +120,7 @@ public class Advertiser_PF {
 	
 	@FindBy(xpath="//input[@name='adType']")
 	WebElement radioCreativeURL;
-//	
-//	
-	
-	
+
 	@FindBy(xpath="//button[contains(.,'Add')]")
 	WebElement btnAdd;
 	
@@ -487,8 +483,10 @@ public class Advertiser_PF {
 			dropdownAdList.sendKeys(Keys.ARROW_DOWN);
 			dropdownAdList.sendKeys(Keys.ENTER);
 			Thread.sleep(3000);
-		if(CreativeMode.toLowerCase().equals("adsource"))
-		{
+			System.out.println("Project path : " + FileReaderManager.getInstance().getConfigReader().getSystemPath()+ "\\src\\test\\resources\\Data\\");
+			String path=FileReaderManager.getInstance().getConfigReader().getSystemPath()+"\\src\\test\\resources\\Data\\"+Url; 
+			if(CreativeMode.toLowerCase().equals("adsource"))
+			{
 			btnAdSource.click();
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
@@ -497,9 +495,9 @@ public class Advertiser_PF {
 			listAdSource.click();
 			//driver.findElement(By.xpath("//span[contains(.,'"+ creativeType +"')]")).click();
 			Thread.sleep(3000);
-		}
-		else if (CreativeMode.toLowerCase().equals("upload"))
-		{
+			}
+			else if (CreativeMode.toLowerCase().equals("upload"))
+			{
 			btnUploadRadio.click();
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("arguments[0].scrollIntoView();", txtTrackerUrl);
@@ -508,24 +506,24 @@ public class Advertiser_PF {
 			switch(creativeType.toString().toLowerCase())
 			{
 			case "image" :
-				ImageUpload(Url);
+				ImageUpload(path);
 		        break;
 
 			case "video" :
-				VideoUpload(Url);
+				VideoUpload(path);
 				break;
 
 			case "html5" : 
-				Html5Upload(Url);
+				Html5Upload(path);
 		        break;
 
 			case "zip" :
-				ZipUpload(Url);
+				ZipUpload(path);
 				break;
 			}
-		}
-		else if (CreativeMode.toLowerCase().equals("creativeurl"))
-		{
+			}
+			else if (CreativeMode.toLowerCase().equals("creativeurl"))
+			{
 			btnCreativeURLRadio.click();
 			txtTrackerName.sendKeys(Keys.DOWN);
 			txtAdSourceType1.click();
@@ -546,7 +544,7 @@ public class Advertiser_PF {
 		        break;
 			}
 			}
-		}
+			}
 				AddTracker("0%");
 				Thread.sleep(5000);
 
@@ -565,30 +563,30 @@ public class Advertiser_PF {
 				AddTrackerClick("Click");
 				Thread.sleep(5000);
 
-				Actions action =new Actions(driver);
-	  			action.moveToElement(btnAdCreative);
-				action.click().build().perform();
+				//Actions action =new Actions(driver);
+	  			//action.moveToElement(btnAdCreative);
+				//action.click().build().perform();
 	
 			//btnAdCreative.sendKeys(Keys.DOWN);
-			//btnAdCreative.click();
-			@SuppressWarnings("deprecation")
-			WebDriverWait wait = new WebDriverWait(driver,30);
-			wait.until(ExpectedConditions.visibilityOf(alertMsg));
-		System.out.println("alertMsg "+alertMsg.getText());
-		AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
-//		AdvertiserValidation.scenario.log("Search of Advertiser");
-	//	btnSearch.sendKeys(name);
-	//	Thread.sleep(3000);
+			btnAdCreative.click();
+			Thread.sleep(10000);
 
-	//	driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
+			//@SuppressWarnings("deprecation")
+			//WebDriverWait wait = new WebDriverWait(driver,30);
+			//wait.until(ExpectedConditions.visibilityOf(alertMsg));
+			//System.out.println("alertMsg "+alertMsg.getText());
+			//AdvertiserValidation.scenario.log("Alert Text Found : "+alertMsg.getText());
+			AdvertiserValidation.scenario.log("Search of Advertiser");
+			btnSearch.sendKeys(name);
+			Thread.sleep(3000);
+			driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
+			dotButton.click();
+			btnDelete.click();
+			btnDeleteConfirm.click();
+			//wait.until(ExpectedConditions.visibilityOf(alertMsg));		
+			AdvertiserValidation.scenario.log("Alert Text Found for Delete: "+alertMsg.getText());
 		
-	//	AdvertiserValidation.scenario.log("Edit of Advertiser");
-	//	Thread.sleep(3000);
-
-	//	dotButton.click();
-	//	btnEditAdCreative.click();
-		
-		}
+			}
 		catch(Exception ex)
 		{
 			throw ex;
@@ -601,7 +599,9 @@ public class Advertiser_PF {
 			Thread.sleep(5000);   
 			btnAdMedia.click();
 			txtCreativeURL2.sendKeys(Url);
-			btnImageText.sendKeys("Image Upload");
+		//Removed as part of Storage changes
+			//	btnImageText.sendKeys("Image Upload");
+		
 			btnDisplayUrl.sendKeys("Testing Image");
 			Thread.sleep(5000);			
 			btnAddMedia.click();
@@ -633,9 +633,12 @@ public class Advertiser_PF {
 		try {
 
 		listAdTypeImage.click();
-		Thread.sleep(5000);   
+		Thread.sleep(3000);  
+		
 		String beforeWindow=driver.getWindowHandle();
 		btnAdMedia.click();
+		Thread.sleep(3000);   
+
 		btnChoose.click();
 		JavascriptExecutor executor = (JavascriptExecutor)driver;    
 		Thread.sleep(3000);   
@@ -652,10 +655,9 @@ public class Advertiser_PF {
 		    }
 		}
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].scrollIntoView();", btnImageText);
+		js.executeScript("arguments[0].scrollIntoView();", btnDisplayUrl);
 		
-	
-		btnImageText.sendKeys("Image Upload");
+	//	btnImageText.sendKeys("Image Upload");
 		
 		btnDisplayUrl.sendKeys("Testing Image");
 		Thread.sleep(5000);
@@ -959,6 +961,7 @@ public class Advertiser_PF {
 					driver.findElement(By.xpath("//p[contains(.,'"+name+"')]")).click();
 		
 		AdvertiserValidation.scenario.log("Edit of Ad Creatives");
+		
 		dotButton.click();
 		btnEditAdCreative.click();
 		txtAdCreativeName.sendKeys(" Updated");
@@ -988,8 +991,7 @@ public class Advertiser_PF {
 	public void AddTracker(String trackerType) throws InterruptedException
 	{
 		try {
-			Thread.sleep(3000);
-			WebDriverWait wait = new WebDriverWait(driver,30);
+			WebDriverWait wait = new WebDriverWait(driver,60);
 			wait.until(ExpectedConditions.visibilityOf(txtTrackerName));
 	
 		txtTrackerName.sendKeys(trackerType +" Tracker ");

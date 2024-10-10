@@ -1,0 +1,9 @@
+Testcase_NO,Scenario,message,name,CreativeMode,CreativeType,Url
+TC_001,UI,success,Automation Creative,AdSource,Edge Ad Source,
+TC_002,UI,success,Automation Creative,Upload,Image,1Image.jpg
+TC_003,UI,success,Automation Creative,Upload,Video,2Video.mp4
+TC_004,UI,success,Automation Creative,Upload,HTML5,300x250Banner.jpg
+TC_005,UI,success,Automation Creative,Upload,Zip,Ogx.zip
+TC_006,UI,success,Automation Creative,CreativeURL,Image,https://picsum.photos/200/300
+TC_007,UI,success,Automation Creative,CreativeURL,Video,http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+TC_008,UI,success,Automation Creative,CreativeURL,Vast,https://technospurs.com/services.html

@@ -38,6 +38,12 @@ public class ConfigFileReader {
 		else throw new RuntimeException("Driver Path not specified in the Configuration.properties file for the Key:chrome_driverPath");		
 	}
 
+	public String getSystemPath(){
+		String proPath = System.getProperty("user.dir");	
+		if(proPath!= null) return proPath;
+		else throw new RuntimeException("project Path not specified in the Configuration.properties file for the Key:chrome_driverPath");		
+	}
+
 	public String getFirefoxDriverPath(){
 		String projectPath = System.getProperty("user.dir");
 		
